@@ -126,7 +126,7 @@ open class CowboyGameManagerImpl(
         listener.onGameStateChanged(state)
     }
 
-    private fun startGame() {
+    protected fun startGame() {
         playerTwo.apply {
             playerPosition = getPlayerTwoPosition()
         }
@@ -147,7 +147,7 @@ open class CowboyGameManagerImpl(
         listener.onGameFinished(state, winner)
     }
 
-    private fun resetGame() {
+    protected fun resetGame() {
         initGame()
     }
 
@@ -180,10 +180,36 @@ class MultiplayerCowboyGameManager(listener: CowboyGameListener) : CowboyGameMan
         if (state == GameState.PLAYER_ONE_TURN) {
             super.movePlayerToTop()
         } else if (state == GameState.PLAYER_TWO_TURN) {
-            if (playerOne.playerPosition.ordinal > PlayerPosition.TOP.ordinal) {
-                val currentIndex = playerOne.playerPosition.ordinal
+            if (playerTwo.playerPosition.ordinal > PlayerPosition.TOP.ordinal) {
+                val currentIndex = playerTwo.playerPosition.ordinal
                 setPlayerTwoMovement(getPlayerPositionByOrdinal(currentIndex - 1), PlayerState.IDLE)
             }
+        }
+    }
+
+    override fun movePlayerToBottom() {
+        if (state == GameState.PLAYER_ONE_TURN) {
+            super.movePlayerToBottom()
+        } else if (state == GameState.PLAYER_TWO_TURN) {
+            if (playerTwo.playerPosition.ordinal > PlayerPosition.BOTTOM.ordinal) {
+                val currentIndex = playerTwo.playerPosition.ordinal
+                setPlayerTwoMovement(getPlayerPositionByOrdinal(currentIndex + 1), PlayerState.IDLE)
+            }
+        }
+    }
+
+    override fun startOrRestartGame() {
+        when (state) {
+            GameState.PLAYER_ONE_TURN -> {
+                setGameState(GameState.PLAYER_TWO_TURN)
+            }
+            GameState.PLAYER_TWO_TURN -> {
+                startGame()
+            }
+            GameState.FINISHED -> {
+                resetGame()
+            }
+            else -> return
         }
     }
 }
