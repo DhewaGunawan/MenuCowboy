@@ -10,7 +10,7 @@ import com.catnip.cowboyshoot.ui.onboarding.OnboardingActivity
 class SplashScreenActivity : AppCompatActivity() {
     private var timer: CountDownTimer? = null
 
-    private val binding : ActivitySplashScreenBinding by lazy {
+    private val binding: ActivitySplashScreenBinding by lazy {
         ActivitySplashScreenBinding.inflate(layoutInflater)
     }
 
