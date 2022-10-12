@@ -10,7 +10,7 @@ import com.catnip.cowboyshoot.databinding.ActivityGameBinding
 import com.catnip.cowboyshoot.enum.GameState
 import com.catnip.cowboyshoot.enum.PlayerPosition
 import com.catnip.cowboyshoot.enum.PlayerSide
-import com.catnip.cowboyshoot.manager.ComputerEnemyCowboyGameManager
+import com.catnip.cowboyshoot.manager.CowboyGameManagerImpl
 import com.catnip.cowboyshoot.manager.CowboyGameListener
 import com.catnip.cowboyshoot.manager.CowboyGameManager
 import com.catnip.cowboyshoot.model.Player
@@ -21,7 +21,7 @@ class GameActivity : AppCompatActivity(), CowboyGameListener {
     }
 
     private val cowboyGameManager: CowboyGameManager by lazy {
-        ComputerEnemyCowboyGameManager(this)
+        CowboyGameManagerImpl(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
