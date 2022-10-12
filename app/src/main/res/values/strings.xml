@@ -16,4 +16,5 @@
     <string name="text_menu_title">Which one do you want to play ?</string>
     <string name="text_menu_vs_player">Player vs Computer</string>
     <string name="text_menu_vs_computer">Player vs Player</string>
+    <string name="text_locl_player_one">LOCK PLAYER ONE</string>
 </resources>

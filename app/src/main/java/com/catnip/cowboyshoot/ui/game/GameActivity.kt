@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.catnip.cowboyshoot.R
 import com.catnip.cowboyshoot.databinding.ActivityGameBinding
 import com.catnip.cowboyshoot.enum.GameState
@@ -50,11 +51,33 @@ class GameActivity : AppCompatActivity(), CowboyGameListener {
 
     override fun onGameStateChanged(gameState: GameState) {
         binding.tvStatusGame.text = ""
-        binding.tvActionGame.text = when (gameState) {
-            GameState.IDLE -> getString(R.string.text_fire)
-            GameState.STARTED -> getString(R.string.text_fire)
-            GameState.FINISHED -> getString(R.string.text_restart)
+        when (gameState) {
+            GameState.IDLE -> {
+                binding.tvActionGame.text = getString(R.string.text_fire)
+                setCharacterVisibility(isPlayerOneVisible = true, isPlayerTwoVisible = true)
+            }
+            GameState.STARTED -> {
+                binding.tvActionGame.text = getString(R.string.text_fire)
+                setCharacterVisibility(isPlayerOneVisible = true, isPlayerTwoVisible = true)
+            }
+            GameState.FINISHED -> {
+                binding.tvActionGame.text = getString(R.string.text_restart)
+                setCharacterVisibility(isPlayerOneVisible = true, isPlayerTwoVisible = true)
+            }
+            GameState.PLAYER_ONE_TURN -> {
+                binding.tvActionGame.text = getString(R.string.text_locl_player_one)
+                setCharacterVisibility(isPlayerOneVisible = true, isPlayerTwoVisible = false)
+            }
+            GameState.PLAYER_TWO_TURN -> {
+                binding.tvActionGame.text = getString(R.string.text_fire)
+                setCharacterVisibility(isPlayerOneVisible = false, isPlayerTwoVisible = true)
+            }
         }
+    }
+
+    private fun setCharacterVisibility(isPlayerOneVisible: Boolean, isPlayerTwoVisible: Boolean) {
+        binding.llPlayerLeft.isVisible = isPlayerOneVisible
+        binding.llPlayerRight.isVisible = isPlayerTwoVisible
     }
 
     override fun onGameFinished(gameState: GameState, winner: Player) {
